@@ -1,70 +1,79 @@
-# Getting Started with Create React App
+# React : 쇼핑몰 프로젝트 만들기 
+### Context API 와 Hooks로 전역 상태 관리하기 (공유 데이터)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> 👉 Context API 와 Hooks를 이용한 전역 상태 관리를 중점적으로 연습하기 위해 프로젝트를 진행하겠습니다.
 
-## Available Scripts
+### 1. 프로젝트 생성
 
-In the project directory, you can run:
+### 2. Git 시작
 
-### `npm start`
+### 3. 폰트 변경
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 4. CSS 작성 및 컴포넌트 레이아웃 작성
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+😀 여기까지는 기본적으로 알고 있는 부분들 입니다.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 5. ContextAPI 생성하기
 
-### `npm run build`
+- `context`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```jsx
+const AppStateContext = React.createContext();
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- `provider` 에 공유할 데이터 생성하기
+- `value`를 통해 공유할 데이터는 반드시 객체로 만들어 주어야 합니다.
+```jsx
+const provider = {
+	// 데이터
+	// 함수1
+	// 함수2
+	return (
+    <context.Provider value={
+      {
+				// 데이터
+				// 함수1
+				// 함수2
+			}>
+      {children}
+    </context.Provider>
+  )
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+### 6. Hook 작성하기
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Hook 파일 별로 제공할 데이터들을 묶어서 제공할 수 있습니다.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```jsx
+import { useContext } from "react";
+import AppStateContext from "../contexts/AppStateContext";
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+ export default function useActions (){
+   const {데이터, 함수1, 함수2} = useContext(Context);
+   return {데이터, 함수1, 함수2};
+ }
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
 
-## Learn More
+### 7. 각 컴포넌트 자세히 작성
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- 각 컴포넌트들은 `오직 Hook을 통해서만` 원하는 데이터를 가져오면 됩니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```jsx
+const {함수1, 함수2} = useActions();
+```
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## ContextAPI 와 Hook을 이용하여 전체 데이터 관리하기
 
-### Analyzing the Bundle Size
+- 프로젝트 구조는 아래와 같습니다.
+- `ContextAPI`를 통해 생성한 공유 데이터 및 함수 👉 `Hook`을 통해 데이터를 쉽게 가져올 수 있도록 합니다. 👉 `Components` 는 단순히 Hook만을 이용하여 데이터 및 함수를 원하는대로 가져올 수 있습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![contextAPI, hook 이용한 데이터 관리](https://user-images.githubusercontent.com/32920566/132973940-388592a6-e74b-4bda-9750-8c7522252c7b.JPG)
